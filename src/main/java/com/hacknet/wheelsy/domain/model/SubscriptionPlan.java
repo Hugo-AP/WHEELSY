@@ -3,7 +3,9 @@ package com.hacknet.wheelsy.domain.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "subscription_plan")
@@ -26,6 +28,12 @@ public class SubscriptionPlan extends AuditModel{
     @NotNull
     @Size(max=100)
     private String name;
+
+
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy="subscriptionPlans")
+    private List<User> users;
+
 
     public Long getId() {
         return id;
@@ -63,4 +71,14 @@ public class SubscriptionPlan extends AuditModel{
         this.name=name;
         return this;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public SubscriptionPlan setUsers(List<User> users) {
+        this.users = users;
+        return this;
+    }
+
 }
