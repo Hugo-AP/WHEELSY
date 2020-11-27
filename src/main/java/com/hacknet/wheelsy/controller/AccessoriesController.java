@@ -33,10 +33,13 @@ public class AccessoriesController {
 
         return new PageImpl<>(resources, pageable, resources.size());
     }
-    @PostMapping("/accessories")
-    public AccessoriesResource createAccessories(@Valid @RequestBody SaveAccessoriesResource resource) {
+    @PostMapping("/products/{productId}/accessories")
+    public AccessoriesResource createAccessories(
+            @PathVariable Long productId,
+            @Valid @RequestBody SaveAccessoriesResource resource
+    ) {
         Accessories accessories = convertToEntity(resource);
-        return convertToResource(accessoriesService.createAccessories(accessories));
+        return convertToResource(accessoriesService.createAccessories(productId,accessories));
     }
     @PutMapping("/accessories/{accessoriesId}")
     public AccessoriesResource updateEntrepreneur(@PathVariable Long accessoriesId, @RequestBody SaveAccessoriesResource resource) {

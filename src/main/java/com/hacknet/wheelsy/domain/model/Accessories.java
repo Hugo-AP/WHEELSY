@@ -1,7 +1,5 @@
 package com.hacknet.wheelsy.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,9 +12,17 @@ public class Accessories extends AuditModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY,optional = false)
+    public Product getProduct() {
+        return product;
+    }
+
+    public Accessories setProduct(Product product) {
+        this.product = product;
+        return this;
+    }
+
+    @OneToOne(cascade =CascadeType.ALL)
     @JoinColumn(name="product_id",nullable = false)
-    @JsonIgnore
     private Product product;
 
     @NotNull
@@ -54,5 +60,6 @@ public class Accessories extends AuditModel{
         this.description = description;
         return this;
     }
+
 
 }

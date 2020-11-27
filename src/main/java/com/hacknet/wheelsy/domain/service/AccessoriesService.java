@@ -8,6 +8,6 @@ import org.springframework.http.ResponseEntity;
 public interface AccessoriesService {
     Page<Accessories> getAllAccessories(Pageable pageable);
     Accessories getAccessoriesById(Long accessoriesId);
-    Accessories createAccessories(Accessories accessories);
-    Accessories updateAccessories(Long entrepreneurId, Accessories accessoriesDetails);
+    Accessories createAccessories(Long productId,Accessories accessories);
+    Accessories updateAccessories(Long accessoriesId, Accessories accessoriesDetails);
     ResponseEntity<?> deleteAccessories(Long accessoriesId);}

@@ -2,6 +2,7 @@ package com.hacknet.wheelsy.service;
 
 import com.hacknet.wheelsy.domain.model.Accessories;
 import com.hacknet.wheelsy.domain.repository.AccessoriesRepository;
+import com.hacknet.wheelsy.domain.repository.ProductRepository;
 import com.hacknet.wheelsy.domain.service.AccessoriesService;
 import com.hacknet.wheelsy.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 public class AccessoriesServicelmpl implements AccessoriesService {
     @Autowired
     private AccessoriesRepository accessoriesRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public Page<Accessories> getAllAccessories(Pageable pageable) {
@@ -25,8 +28,13 @@ public class AccessoriesServicelmpl implements AccessoriesService {
     }
 
     @Override
-    public Accessories createAccessories(Accessories accessories) {
-        return accessoriesRepository.save(accessories);
+    public Accessories createAccessories(Long productId,Accessories accessories) {
+        return productRepository.findById(productId).map(product -> {
+            accessories.setProduct(product);
+            return accessoriesRepository.save(accessories);
+        }).orElseThrow(()->new ResourceNotFoundException(
+                "Product","Id",productId));
+
     }
 
     @Override
