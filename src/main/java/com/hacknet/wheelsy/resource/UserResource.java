@@ -13,6 +13,10 @@ public class UserResource extends AuditModel {
     private Long id;
     private String name;
     private String lastname;
+
+
+
+    private String username;
     private String address;
     private String email;
     private String gender;
@@ -79,6 +83,14 @@ public class UserResource extends AuditModel {
 
     public UserResource setPassword(String password) {
         this.password = password;
+        return this;
+    }
+    public String getUsername() {
+        return username;
+    }
+
+    public UserResource setUsername(String username) {
+        this.username = username;
         return this;
     }
 }

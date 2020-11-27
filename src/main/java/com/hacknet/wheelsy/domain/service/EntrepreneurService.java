@@ -11,4 +11,5 @@ public interface EntrepreneurService {
     Entrepreneur createEntrepreneur(Entrepreneur entrepreneur);
     Entrepreneur updateEntrepreneur(Long entrepreneurId, Entrepreneur entrepreneurDetails);
     ResponseEntity<?> deleteEntrepreneur(Long entrepreneurId);
+
 }

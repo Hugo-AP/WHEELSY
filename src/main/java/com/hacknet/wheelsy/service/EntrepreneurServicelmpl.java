@@ -2,13 +2,18 @@ package com.hacknet.wheelsy.service;
 
 import com.hacknet.wheelsy.domain.model.Entrepreneur;
 import com.hacknet.wheelsy.domain.repository.EntrepreneurRepository;
+import com.hacknet.wheelsy.domain.repository.UserRepository;
 import com.hacknet.wheelsy.domain.service.EntrepreneurService;
 import com.hacknet.wheelsy.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class EntrepreneurServicelmpl implements EntrepreneurService {
     @Autowired
@@ -18,6 +23,7 @@ public class EntrepreneurServicelmpl implements EntrepreneurService {
     public Page<Entrepreneur> getAllEntrepreneurs(Pageable pageable) {
         return entrepreneurRepository.findAll(pageable);
     }
+
 
     @Override
     public Entrepreneur getEntrepreneurById(Long entrepreneurId) {

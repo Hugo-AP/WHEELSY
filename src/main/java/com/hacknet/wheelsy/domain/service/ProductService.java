@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 public interface ProductService {
     Page<Product> getAllProducts(Pageable pageable);
     Page<Product> getAllProductsByEntrepreneurId(Long EntrepreneurId ,Pageable pageable);
+    Product getProductByCategory(String category);
+    Product getProductByIdAndEntrepreneurId(Long productId,Long EntrepreneurId);
     Product getProductById(Long productId);
     Product createProduct(Long EntrepreneurId ,Product product);
     Product updateProduct(Long productId,Long entrepreneurId, Product productDetails);

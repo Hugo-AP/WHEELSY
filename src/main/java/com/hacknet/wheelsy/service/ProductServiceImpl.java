@@ -34,6 +34,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product getProductByCategory(String category) {
+        return productRepository.findByCategory(category).orElseThrow(()->new ResourceNotFoundException(
+                "Product","Category",category
+        ));
+    }
+
+    @Override
+    public Product getProductByIdAndEntrepreneurId(Long productId, Long EntrepreneurId) {
+        return productRepository.findByIdAndEntrepreneurId(productId,EntrepreneurId).orElseThrow(()->new ResourceNotFoundException(
+                "Session not found with Id "+productId+" and SpecialistId "+EntrepreneurId
+        ));
+    }
+
+    @Override
     public Product getProductById(Long productId) {
         return productRepository.findById(productId).orElseThrow(()->new ResourceNotFoundException(
                 "Product","Id", productId
