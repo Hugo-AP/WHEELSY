@@ -1,7 +1,10 @@
 package com.hacknet.wheelsy.service;
 
+import com.hacknet.wheelsy.domain.model.Product;
 import com.hacknet.wheelsy.domain.model.Sales;
+import com.hacknet.wheelsy.domain.model.SubscriptionPlan;
 import com.hacknet.wheelsy.domain.model.User;
+import com.hacknet.wheelsy.domain.repository.ProductRepository;
 import com.hacknet.wheelsy.domain.repository.SalesRepository;
 import com.hacknet.wheelsy.domain.repository.UserRepository;
 import com.hacknet.wheelsy.domain.service.SalesService;
@@ -22,6 +25,8 @@ public class SalesServiceImpl implements SalesService{
 
     @Autowired
     private SalesRepository salesRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public Page<Sales> getAllSales(Pageable pageable) {
@@ -31,6 +36,13 @@ public class SalesServiceImpl implements SalesService{
     @Override
     public Page<Sales> getAllSalesByUserId(Long user_id, Pageable pageable){
         return salesRepository.findByUserId(user_id, pageable);
+    }
+
+    @Override
+    public Sales getSaleById(Long salesId) {
+        return salesRepository.findById(salesId).orElseThrow(()->new ResourceNotFoundException(
+                "Sale","Id",salesId
+        ));
     }
 
     @Override
@@ -55,12 +67,10 @@ public class SalesServiceImpl implements SalesService{
     @Override
     public Sales updateSales(Long user_id, Long salesId, Sales salesDetails) {
         if(!userRepository.existsById(user_id))
-            throw new ResourceNotFoundException("Specialist","Id",user_id);
+            throw new ResourceNotFoundException("User","Id",user_id);
         return salesRepository.findById(salesId).map(sales -> {
-            sales.setUser(salesDetails.getUser());
             sales.setWay_to_pay(salesDetails.getWay_to_pay());
             sales.setDate_register(salesDetails.getDate_register());
-            sales.setId(salesDetails.getId());
             sales.setTime(salesDetails.getTime());
             return salesRepository.save(sales);
         }).orElseThrow(()->new ResourceNotFoundException("Sales","Id",salesId));
@@ -69,12 +79,23 @@ public class SalesServiceImpl implements SalesService{
     @Override
     public ResponseEntity<?> deleteSales(Long user_id, Long salesId) {
         if(!userRepository.existsById(user_id))
-            throw new ResourceNotFoundException("Specialist", "Id", user_id);
+            throw new ResourceNotFoundException("User", "Id", user_id);
 
         return salesRepository.findById(salesId).map(session -> {
             salesRepository.delete(session);
             return ResponseEntity.ok().build();
         }).orElseThrow(() -> new ResourceNotFoundException("Sales", "Id", salesId));
 
+    }
+
+    @Override
+    public Sales assignProduct(Long salesId, Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Product", "Id", productId));
+        return salesRepository.findById(salesId).map(
+                sales -> salesRepository.save(sales.OnSaleWith(product)))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Sale", "Id", salesId));
     }
 }
