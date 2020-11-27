@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class MaintenanceActivity {
+public class ActivityLogController {
     @Autowired
     private ModelMapper mapper;
     @Autowired
@@ -29,17 +29,17 @@ public class MaintenanceActivity {
 
 
     @PostMapping("/users/{userId}/entrepreneurs/{entrepreneurId}")
-    public UserResource assignSubscribe(
+    public UserResource assignActivity(
             @PathVariable(name = "userId") Long userId,
             @PathVariable(name = "entrepreneurId") Long entrepreneurId) {
-        return convertToResource(userService.assignMaintenance(userId, entrepreneurId));
+        return convertToResource(userService.assignActivity(userId, entrepreneurId));
     }
 
     @DeleteMapping("/users/{userId}/entrepreneurs/{entrepreneurId}")
-    public UserResource unAssignSubscribe(
+    public UserResource unAssignActivity(
             @PathVariable(name = "userId") Long userId,
             @PathVariable(name = "entrepreneurId") Long entrepreneurId) {
-        return convertToResource(userService.unassignMaintenance(userId, entrepreneurId));
+        return convertToResource(userService.unassignActivity(userId, entrepreneurId));
     }
     @GetMapping("entrepreneurs/{entrepreneurId}/users")
     public Page<UserResource> getAllUsersByEntrepreneurId(

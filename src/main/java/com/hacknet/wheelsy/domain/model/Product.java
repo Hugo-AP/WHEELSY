@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -21,6 +22,11 @@ public class Product extends AuditModel {
     @JoinColumn(name="entrepreneurs_id",nullable = false)
     @JsonIgnore
     private Entrepreneur entrepreneur;
+
+
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy="products")
+    private List<Sales> sales;
 
     @NotNull
     @Size(max = 25)
@@ -60,6 +66,15 @@ public class Product extends AuditModel {
 
     public Product setEntrepreneur(Entrepreneur entrepreneur) {
         this.entrepreneur = entrepreneur;
+        return this;
+    }
+
+    public List<Sales> getSales() {
+        return sales;
+    }
+
+    public Product setSales(List<Sales> sales) {
+        this.sales = sales;
         return this;
     }
 }

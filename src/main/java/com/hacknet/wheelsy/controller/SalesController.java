@@ -1,9 +1,11 @@
 package com.hacknet.wheelsy.controller;
 
 import com.hacknet.wheelsy.domain.model.Sales;
+import com.hacknet.wheelsy.domain.model.SubscriptionPlan;
 import com.hacknet.wheelsy.domain.service.SalesService;
 import com.hacknet.wheelsy.resource.SaveSalesResource;
 import com.hacknet.wheelsy.resource.SalesResource;
+import com.hacknet.wheelsy.resource.SubscriptionPlanResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,6 +46,7 @@ public class SalesController {
 
         return new PageImpl<>(resources, pageable, resources.size());
     }
+
     @GetMapping("/user/{user_id}/sales/{salesId}")
     public SalesResource getSalesByIdAndUserId(@PathVariable(name = "user_id") Long user_id,
                                                          @PathVariable(name = "salesId") Long salesId) {

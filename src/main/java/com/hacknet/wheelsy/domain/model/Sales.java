@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "sales")
@@ -21,17 +22,24 @@ public class Sales extends AuditModel{
     private Long id;
 
     @NotNull
-    @Size(max = 10)
     private Date date_register;
 
+
     @NotNull
-    @Size(max = 10)
-    private Date time;
+    private String time;
 
     @NotNull
     @Size(max=100)
     private String way_to_pay;
 
+
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "sales_details",
+            joinColumns = { @JoinColumn(name = "sale_id")},
+            inverseJoinColumns = { @JoinColumn(name = "product_id")})
+    private List<Product> products;
 
     public User getUser() {
         return user;
@@ -60,14 +68,15 @@ public class Sales extends AuditModel{
         return this;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public Sales setTime(Date time) {
+    public Sales setTime(String time) {
         this.time = time;
         return this;
     }
+
 
     public String getWay_to_pay() {
         return way_to_pay;
@@ -77,4 +86,24 @@ public class Sales extends AuditModel{
         this.way_to_pay = way_to_pay;
         return this;
     }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public Sales setProducts(List<Product> products) {
+        this.products = products;
+        return this;
+    }
+
+    public boolean isSaleWith(Product product) {
+        return this.getProducts().contains(product);
+    }
+
+    public Sales OnSaleWith(Product product) {
+        if(!this.isSaleWith(product))
+            this.getProducts().add(product);
+        return this;
+    }
+
 }

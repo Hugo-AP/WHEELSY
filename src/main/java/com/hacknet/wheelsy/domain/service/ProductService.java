@@ -14,4 +14,5 @@ public interface ProductService {
     Product createProduct(Long EntrepreneurId ,Product product);
     Product updateProduct(Long productId,Long entrepreneurId, Product productDetails);
     ResponseEntity<?> deleteProduct(Long productId,Long entrepreneurId);
+    Page<Product> getAllProductsBySalesId(Long salesId ,Pageable pageable);
 }
