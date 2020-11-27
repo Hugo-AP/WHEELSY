@@ -13,7 +13,7 @@ public class SalesResource extends AuditModel{
     //users_id
     private Long id;
     private Date date_register;
-    private Date time;
+    private String time;
     private String way_to_pay;
 
     public Long getId() {
@@ -34,11 +34,11 @@ public class SalesResource extends AuditModel{
         return this;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public SalesResource setTime(Date time) {
+    public SalesResource setTime(String time) {
         this.time = time;
         return this;
     }

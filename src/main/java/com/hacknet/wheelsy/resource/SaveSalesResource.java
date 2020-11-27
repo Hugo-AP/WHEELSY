@@ -11,17 +11,13 @@ import java.util.Date;
 public class SaveSalesResource {
     //users_id
     @NotNull
-    @NotBlank
-    @Size(max = 10)
     private Date date_register;
 
     @NotNull
-    @NotBlank
-    @Size(max = 10)
-    private Date time;
+
+    private String time;
 
     @NotNull
-    @NotBlank
     @Size(max=100)
     private String way_to_pay;
 
@@ -34,11 +30,11 @@ public class SaveSalesResource {
         return this;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public SaveSalesResource setTime(Date time) {
+    public SaveSalesResource setTime(String time) {
         this.time = time;
         return this;
     }

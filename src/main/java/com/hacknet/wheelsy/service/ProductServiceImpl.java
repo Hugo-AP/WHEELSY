@@ -84,4 +84,9 @@ public class ProductServiceImpl implements ProductService {
             return ResponseEntity.ok().build();
         }).orElseThrow(()->new ResourceNotFoundException("Product","Id",productId));
     }
+
+    @Override
+    public Page<Product> getAllProductsBySalesId(Long salesId, Pageable pageable) {
+        return productRepository.findBySalesId(salesId,pageable);
+    }
 }
