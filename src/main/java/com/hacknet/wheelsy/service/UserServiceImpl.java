@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User assignMaintenance(Long userId, Long entrepreneurId) {
+    public User assignActivity(Long userId, Long entrepreneurId) {
         Entrepreneur entrepreneur = entrepreneurRepository.findById(entrepreneurId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Entrepreneur", "Id", entrepreneurId));
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User unassignMaintenance(Long userId, Long entrepreneurId) {
+    public User unassignActivity(Long userId, Long entrepreneurId) {
         Entrepreneur entrepreneur = entrepreneurRepository.findById(entrepreneurId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Entrepreneur", "Id", entrepreneurId));

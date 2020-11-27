@@ -15,6 +15,6 @@ public interface UserService {
     ResponseEntity<?> deleteUser(Long userId);
     User assignSubscription(Long userId, Long subscriptionPlanId);
     User unassignSubscription(Long userId, Long subscriptionPlanId);
-    User assignMaintenance(Long userId, Long entrepreneurId);
-    User unassignMaintenance(Long userId, Long entrepreneurId);
+    User assignActivity(Long userId, Long entrepreneurId);
+    User unassignActivity(Long userId, Long entrepreneurId);
 }
