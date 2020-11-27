@@ -4,6 +4,7 @@ import com.hacknet.wheelsy.domain.model.Category;
 import com.hacknet.wheelsy.domain.model.Entrepreneur;
 import com.hacknet.wheelsy.domain.model.Product;
 
+import com.hacknet.wheelsy.domain.model.User;
 import com.hacknet.wheelsy.domain.service.ProductService;
 import com.hacknet.wheelsy.resource.*;
 
@@ -37,6 +38,29 @@ public class ProductController {
                 this::convertToResource).collect(Collectors.toList());
         return new PageImpl<>(resources, pageable, resources.size());
     }
+
+    @GetMapping("/entrepreneurs/{entrepreneurId}/products/{productId}")
+    public ProductResource getProductByIdAndEntrepreneurId(@PathVariable(name = "entrepreneurId") Long entrepreneurId,
+                                                         @PathVariable(name = "productId") Long productId) {
+        return convertToResource(productService.getProductByIdAndEntrepreneurId(productId, entrepreneurId));
+    }
+
+    @GetMapping("/products/{category}")
+    public ProductResource getAllProductsByCategory(@PathVariable (value = "category") String category) {
+        return convertToResource(productService.getProductByCategory(category));
+    }
+
+    @GetMapping("/products")
+    public Page<ProductResource> getAllProducts(Pageable pageable) {
+        Page<Product> productPage = productService.getAllProducts(pageable);
+        List<ProductResource> resources = productPage.getContent()
+                .stream()
+                .map(this::convertToResource)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(resources, pageable, resources.size());
+    }
+
     @PostMapping("/entrepreneurs/{entrepreneurId}/products")
     public ProductResource createProducts(
             @PathVariable Long entrepreneurId,

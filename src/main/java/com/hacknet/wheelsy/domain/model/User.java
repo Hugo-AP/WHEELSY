@@ -45,6 +45,13 @@ public class User extends AuditModel{
     private String password;
 
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "maintenance_activity",
+            joinColumns = { @JoinColumn(name = "user_id")},
+            inverseJoinColumns = { @JoinColumn(name = "entrepreneur_id")})
+    private List<Entrepreneur> entrepreneurs;
+
 
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -127,6 +134,16 @@ public class User extends AuditModel{
         return this;
     }
 
+    public List<Entrepreneur> getEntrepreneurs() {
+        return entrepreneurs;
+    }
+
+    public User setEntrepreneurs(List<Entrepreneur> entrepreneurs) {
+        this.entrepreneurs = entrepreneurs;
+        return this;
+    }
+
+
     public List<SubscriptionPlan> getSubscriptionPlans() {
         return subscriptionPlans;
     }
@@ -149,6 +166,22 @@ public class User extends AuditModel{
     public User UnsubscribeWith(SubscriptionPlan SubscriptionPlan) {
         if(this.isSubscribeWith(SubscriptionPlan))
             this.getSubscriptionPlans().remove(SubscriptionPlan);
+        return this;
+    }
+
+    public boolean IsSignedWith(Entrepreneur entrepreneur) {
+        return this.getEntrepreneurs().contains(entrepreneur);
+    }
+
+    public User SignedWith(Entrepreneur entrepreneur) {
+        if(!this.IsSignedWith(entrepreneur))
+            this.getEntrepreneurs().add(entrepreneur);
+        return this;
+    }
+
+    public User UnsignedWith(Entrepreneur entrepreneur) {
+        if(this.IsSignedWith(entrepreneur))
+            this.getEntrepreneurs().remove(entrepreneur);
         return this;
     }
 

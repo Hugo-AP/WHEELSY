@@ -1,6 +1,7 @@
 package com.hacknet.wheelsy;
 
 import com.hacknet.wheelsy.domain.model.User;
+import com.hacknet.wheelsy.domain.repository.EntrepreneurRepository;
 import com.hacknet.wheelsy.domain.repository.SubscriptionPlanRepository;
 import com.hacknet.wheelsy.domain.repository.UserRepository;
 import com.hacknet.wheelsy.domain.service.UserService;
@@ -30,6 +31,9 @@ public class UserServiceImplIntegrationTest {
 
     @MockBean
     private SubscriptionPlanRepository subscriptionPlanRepository;
+
+    @MockBean
+    private EntrepreneurRepository entrepreneurRepository;
 
     @Autowired
     private UserService userService;

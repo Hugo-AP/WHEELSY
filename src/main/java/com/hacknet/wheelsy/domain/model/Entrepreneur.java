@@ -3,6 +3,7 @@ package com.hacknet.wheelsy.domain.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 @Entity
@@ -27,6 +28,10 @@ public class Entrepreneur extends AuditModel{
     @NotNull
     @Size(max = 20)
     private String phone;
+
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy="entrepreneurs")
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -68,6 +73,15 @@ public class Entrepreneur extends AuditModel{
 
     public Entrepreneur setPhone(String phone) {
         this.phone = phone;
+        return this;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public Entrepreneur setUsers(List<User> users) {
+        this.users = users;
         return this;
     }
 
