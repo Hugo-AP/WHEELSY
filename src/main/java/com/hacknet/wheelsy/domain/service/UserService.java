@@ -1,5 +1,6 @@
 package com.hacknet.wheelsy.domain.service;
 
+
 import com.hacknet.wheelsy.domain.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,4 +12,6 @@ public interface UserService {
     User createUser(User user);
     User updateUser(Long userId, User userDetails);
     ResponseEntity<?> deleteUser(Long userId);
+    User assignSubscription(Long userId, Long subscriptionPlanId);
+    User unassignSubscription(Long userId, Long subscriptionPlanId);
 }

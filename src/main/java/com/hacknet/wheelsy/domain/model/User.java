@@ -4,7 +4,10 @@ package com.hacknet.wheelsy.domain.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -40,6 +43,17 @@ public class User extends AuditModel{
     @NotNull
     @Size(max = 20)
     private String password;
+
+
+
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "subscriptions",
+            joinColumns = { @JoinColumn(name = "user_id")},
+            inverseJoinColumns = { @JoinColumn(name = "subscription_plan_id")})
+    private List<SubscriptionPlan> subscriptionPlans;
+
 
 
     public Long getId() {
@@ -112,4 +126,30 @@ public class User extends AuditModel{
         this.username = username;
         return this;
     }
+
+    public List<SubscriptionPlan> getSubscriptionPlans() {
+        return subscriptionPlans;
+    }
+
+    public User setSubscriptionPlans(List<SubscriptionPlan> subscriptionPlans) {
+        this.subscriptionPlans = subscriptionPlans;
+        return this;
+    }
+
+    public boolean isSubscribeWith(SubscriptionPlan subscriptionPlan) {
+        return this.getSubscriptionPlans().contains(subscriptionPlan);
+    }
+
+    public User SubscribeWith(SubscriptionPlan subscriptionPlan) {
+        if(!this.isSubscribeWith(subscriptionPlan))
+            this.getSubscriptionPlans().add(subscriptionPlan);
+        return this;
+    }
+
+    public User UnsubscribeWith(SubscriptionPlan SubscriptionPlan) {
+        if(this.isSubscribeWith(SubscriptionPlan))
+            this.getSubscriptionPlans().remove(SubscriptionPlan);
+        return this;
+    }
+
 }
