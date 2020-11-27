@@ -1,6 +1,6 @@
 package com.hacknet.wheelsy.controller;
 
-import com.hacknet.wheelsy.domain.model.Category;
+
 import com.hacknet.wheelsy.domain.model.Entrepreneur;
 import com.hacknet.wheelsy.domain.model.Product;
 
