@@ -6,6 +6,10 @@ import com.hacknet.wheelsy.domain.model.User;
 import com.hacknet.wheelsy.domain.service.ProductService;
 import com.hacknet.wheelsy.domain.service.SalesService;
 import com.hacknet.wheelsy.resource.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +30,11 @@ public class SalesDetails {
     @Autowired
     private ProductService productService;
 
+
+    @Operation(summary = "Assign Sales", description = "Assign a new Sales", tags = {"SalesDetails"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Sales created", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/sales/{saleId}/products/{productId}")
     public SalesResource assignSale(
             @PathVariable(name = "saleId") Long saleId,
@@ -33,6 +42,10 @@ public class SalesDetails {
         return convertToResource(salesService.assignProduct(saleId, productId));
     }
 
+    @Operation(summary = "Get products by SaleId", description = "Get All products by SaleId", tags = {"SalesDetails"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All products returned", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/sales/{saleId}/products")
     public Page<ProductResource> getAllProductsBySaleId(
             @PathVariable(name = "saleId") Long saleId,

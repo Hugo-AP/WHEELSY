@@ -4,6 +4,10 @@ import com.hacknet.wheelsy.domain.model.SubscriptionPlan;
 import com.hacknet.wheelsy.domain.service.SubscriptionPlanService;
 import com.hacknet.wheelsy.resource.SaveSubscriptionPlanResource;
 import com.hacknet.wheelsy.resource.SubscriptionPlanResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +28,10 @@ public class SubscriptionPlanController {
     @Autowired
     private SubscriptionPlanService subscriptionPlanService;
 
+    @Operation(summary = "Get SubscriptionPlans", description = "Get all SubscriptionsPlans", tags = {"SubscriptionPlans"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All plans returned", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("/plans")
     public Page<SubscriptionPlanResource> getAllSubscriptionPlans(Pageable pageable) {
         Page<SubscriptionPlan> userPage = subscriptionPlanService.getAllSubscriptionPlanServices(pageable);
@@ -34,16 +42,28 @@ public class SubscriptionPlanController {
 
         return new PageImpl<>(resources, pageable, resources.size());
     }
+    @Operation(summary = "Create subscriptionPlan", description = "Create a new subscriptionPlan", tags = {"SubscriptionPlans"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Created subscriptionPlan", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/plans")
     public SubscriptionPlanResource createSubscriptionPlan(@Valid @RequestBody SaveSubscriptionPlanResource resource) {
         SubscriptionPlan subscriptionPlan = convertToEntity(resource);
         return convertToResource(subscriptionPlanService.createSubscriptionPlan(subscriptionPlan));
     }
+    @Operation(summary = "Update subscriptionPlan", description = "Update subscriptionPlan for given Id", tags = {"SubscriptionPlans"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = " subscriptionPlan Updated", content = @Content(mediaType = "application/json"))
+    })
     @PutMapping("/plans/{SubscriptionPlanId}")
     public SubscriptionPlanResource updateSubscriptionPlan(@PathVariable Long SubscriptionPlanId, @RequestBody SaveSubscriptionPlanResource resource) {
         SubscriptionPlan subscriptionPlan = convertToEntity(resource);
         return convertToResource(subscriptionPlanService.updateSubscriptionPlan(SubscriptionPlanId, subscriptionPlan));
     }
+    @Operation(summary = "Delete subscriptionPlan", description = "Delete subscriptionPlan for given Id", tags = {"SubscriptionPlans"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = " subscriptionPlan deleted", content = @Content(mediaType = "application/json"))
+    })
     @DeleteMapping("/plans/{SubscriptionPlanId}")
     public ResponseEntity<?> deleteSpecialist(@PathVariable Long SubscriptionPlanId) {
         return subscriptionPlanService.deleteSubscriptionPlan(SubscriptionPlanId);

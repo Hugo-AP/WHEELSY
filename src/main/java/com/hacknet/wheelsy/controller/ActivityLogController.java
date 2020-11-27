@@ -9,6 +9,10 @@ import com.hacknet.wheelsy.resource.EntrepreneurResource;
 import com.hacknet.wheelsy.resource.SaveEntrepreneurResource;
 import com.hacknet.wheelsy.resource.SaveUserResource;
 import com.hacknet.wheelsy.resource.UserResource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,20 +31,30 @@ public class ActivityLogController {
     @Autowired
     private UserService userService;
 
-
+    @Operation(summary = "Assign Activity", description = "Assign a new Activity", tags = {"Activities"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Activity created", content = @Content(mediaType = "application/json"))
+    })
     @PostMapping("/users/{userId}/entrepreneurs/{entrepreneurId}")
     public UserResource assignActivity(
             @PathVariable(name = "userId") Long userId,
             @PathVariable(name = "entrepreneurId") Long entrepreneurId) {
         return convertToResource(userService.assignActivity(userId, entrepreneurId));
     }
-
+    @Operation(summary = "Unassign Activity", description = "Unassign a new Activity", tags = {"Activities"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Activity deleted", content = @Content(mediaType = "application/json"))
+    })
     @DeleteMapping("/users/{userId}/entrepreneurs/{entrepreneurId}")
     public UserResource unAssignActivity(
             @PathVariable(name = "userId") Long userId,
             @PathVariable(name = "entrepreneurId") Long entrepreneurId) {
         return convertToResource(userService.unassignActivity(userId, entrepreneurId));
     }
+    @Operation(summary = "Get users by entrepreneurId", description = "Get All users by entrepreneurId", tags = {"Activities"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All users returned", content = @Content(mediaType = "application/json"))
+    })
     @GetMapping("entrepreneurs/{entrepreneurId}/users")
     public Page<UserResource> getAllUsersByEntrepreneurId(
             @PathVariable(name = "entrepreneurId") Long entrepreneurId,
